@@ -16,10 +16,20 @@ typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<double, double> pdd;
 
+struct edge {
+    int f, w;
+};
+
+struct cmp {
+    bool operator()(pll &A, pll &B) {
+        return A.first > B.first;
+    }
+};
+
 const ll INF = (ll)1e10;
 
 vector<int> pos[101];
-vector<int> edge[101];
+vector<edge> edges[101];
 
 int n, e;
 int target = -1, tIdx;
@@ -29,12 +39,6 @@ int meet[101][101];
 
 int period[101];
 int arr[1000001][2] = {0, };
-
-struct cmp {
-    bool operator()(pll &A, pll &B) {
-        return A.first > B.first;
-    }
-};
 
 ll gcd(ll a, ll b) {
     if(a < b) return gcd(b, a);
@@ -94,10 +98,12 @@ ll dijkstra(int s, int f) {
         ll curD = pq.top().first; ll cur = pq.top().second; pq.pop();
         if(curD > d[cur]) continue;
         
-        for(auto &next: edge[cur]) {
+        for(auto &e: edges[cur]) {
+            ll next = e.f; ll w = e.w;
+            
             ll l = period[cur]*period[next]/gcd(period[cur],period[next]);
             
-            ll v = (curD/l+(curD%l > w[cur][next]))*l+w[cur][next];
+            ll v = (curD/l+(curD%l > w))*l+w;
             
             if(next != f && d[next] > v) {
                 d[next] = v; pq.push({v, next});
@@ -136,23 +142,15 @@ int main()
                 arr[p][0] = i; arr[p][1] = j;
             }
             else {
-                int ww = extEuclid(period[arr[p][0]], period[i], arr[p][1], j);
+                int w = extEuclid(period[arr[p][0]], period[i], arr[p][1], j);
                 
-                if(ww != -1) {
+                if(w != -1) {
                     meet[arr[p][0]][i] = j; meet[i][arr[p][0]] = arr[p][1];
-                    edge[arr[p][0]].push_back(i); edge[i].push_back(arr[p][0]);
-                    w[arr[p][0]][i] = ww; w[i][arr[p][0]] = ww;
+                    edges[arr[p][0]].push_back({i, w}); edges[i].push_back({arr[p][0], w});
                 }
             }
         }
     }
-    
-    /*for(int i = 1; i <= n; i++) {
-        for(int j = 1; j <= n; j++) {
-            cout << w[i][j] << " ";
-        }
-        cout << '\n';
-    }*/
     
     int ans;
     if(target == 1) ans = tIdx;
