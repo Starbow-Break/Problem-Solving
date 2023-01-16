@@ -55,12 +55,12 @@ int extEuclid(int a, int b, int r1, int r2) {
     
     if(abs(r)%g) return -1;
     
-    int A = a; int x1 = 1; int y1 = 0;
-    int B = b; int x2 = 0; int y2 = 1;
+    int A = a; ll x1 = 1; ll y1 = 0;
+    int B = b; ll x2 = 0; ll y2 = 1;
     
     while(B != 0) {
-        int C, x3, y3;
-        int q = A/B;
+        int C; ll x3, y3;
+        ll q = A/B;
         C = A%B; x3 = x1-q*x2; y3 = y1-q*y2;
         
         A = B; x1 = x2; y1 = y2;
