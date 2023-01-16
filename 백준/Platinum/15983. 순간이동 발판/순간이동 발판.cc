@@ -95,7 +95,7 @@ int dijkstra(int s, int f) {
         int curD = pq.top().first; int cur = pq.top().second; pq.pop();
         if(curD > d[cur]) continue;
         
-        if(cur == f) return curD;
+        if(cur == END) return curD;
         
         for(auto &e: edges[cur]) {
             int next = e.f; int w = e.w;
@@ -109,7 +109,7 @@ int dijkstra(int s, int f) {
         }
     }
     
-    return ((d[f] == INF) ? -1 : d[f]);
+    return -1;
 }
 
 int main()
