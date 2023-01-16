@@ -47,15 +47,13 @@ int gcd(int a, int b) {
 }
 
 int extEuclid(int a, int b, int r1, int r2) {
+    if(a < b) {
+        return extEuclid(b, a, r2, r1);
+    }
+    
     int g = gcd(a, b); int r = r2-r1;
     
     if(abs(r)%g) return -1;
-    
-    if(a < b) {
-        int temp = a; a = b; b = temp;
-        temp = r1; r1 = r2; r2 = temp;
-        r = -r;
-    }
     
     int A = a; int x1 = 1; int y1 = 0;
     int B = b; int x2 = 0; int y2 = 1;
