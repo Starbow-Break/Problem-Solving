@@ -21,26 +21,24 @@ struct edge {
 };
 
 struct cmp {
-    bool operator()(pll &A, pll &B) {
+    bool operator()(pii &A, pii &B) {
         return A.first > B.first;
     }
 };
 
-const ll INF = (ll)1e10;
+const int INF = 2e9;
+const int END = 101;
 
-vector<int> pos[101];
-vector<edge> edges[101];
+vector<int> pos[102];
+vector<edge> edges[102];
 
 int n, e;
-int target = -1, tIdx;
+int target, tIdx;
 
-int w[101][101];
-int meet[101][101];
-
-int period[101];
+int period[102];
 int arr[1000001][2] = {0, };
 
-ll gcd(ll a, ll b) {
+int gcd(int a, int b) {
     if(a < b) return gcd(b, a);
     if(b == 1) return 1;
     if(b == 0) return a;
@@ -48,8 +46,8 @@ ll gcd(ll a, ll b) {
     return gcd(b, a%b);
 }
 
-int extEuclid(ll a, ll b, ll r1, ll r2) {
-    ll g = gcd(a, b); ll r = r2-r1;
+int extEuclid(int a, int b, int r1, int r2) {
+    int g = gcd(a, b); int r = r2-r1;
     
     if(abs(r)%g) return -1;
     
@@ -59,12 +57,12 @@ int extEuclid(ll a, ll b, ll r1, ll r2) {
         r = -r;
     }
     
-    ll A = a, x1 = 1, y1 = 0;
-    ll B = b, x2 = 0, y2 = 1;
+    int A = a; int x1 = 1; int y1 = 0;
+    int B = b; int x2 = 0; int y2 = 1;
     
     while(B != 0) {
-        ll C, x3, y3;
-        ll q = A/B;
+        int C, x3, y3;
+        int q = A/B;
         C = A%B; x3 = x1-q*x2; y3 = y1-q*y2;
         
         A = B; x1 = x2; y1 = y2;
@@ -73,55 +71,45 @@ int extEuclid(ll a, ll b, ll r1, ll r2) {
     
     x1 *= r/g; y1 *= r/g;
     if(x1 < 0) {
-        ll k = (b-1-x1)/b;
+        int k = (b-1-x1)/b;
         x1 += k*b; x2 -= k*a;
     }
     if(x1 >= b) {
-        ll k = (x1-b)/b;
+        int k = (x1-b)/b;
         x1 -= k*b; x2 += k*a;
     }
     
     return a*x1+r1;
 }
 
-ll dijkstra(int s, int f) {
+int dijkstra(int s, int f) {
     if(f == -1) return -1;
     
-    ll d[101]; fill(d, d+101, INF);
-    ll dd[4000]; fill(dd, dd+4000, INF);
+    int d[102]; fill(d, d+102, INF);
     
-    priority_queue<pll, vector<pll>, cmp> pq;
+    priority_queue<pii, vector<pii>, cmp> pq;
     
     d[s] = 0; pq.push({0, s});
     
     while(!pq.empty()) {
-        ll curD = pq.top().first; ll cur = pq.top().second; pq.pop();
+        int curD = pq.top().first; int cur = pq.top().second; pq.pop();
         if(curD > d[cur]) continue;
         
+        if(cur == f) return curD;
+        
         for(auto &e: edges[cur]) {
-            ll next = e.f; ll w = e.w;
+            int next = e.f; int w = e.w;
             
-            ll l = period[cur]*period[next]/gcd(period[cur],period[next]);
+            int l = period[cur]*period[next]/gcd(period[cur],period[next]);
+            int v = (curD/l+(curD%l > w))*l+w;
             
-            ll v = (curD/l+(curD%l > w))*l+w;
-            
-            if(next != f && d[next] > v) {
+            if(d[next] > v) {
                 d[next] = v; pq.push({v, next});
-            }
-            if(next == f && dd[meet[cur][next]] > v) {
-                dd[meet[cur][next]] = v;
             }
         }
     }
     
-    ll ret = INF;
-    for(int i = 0; i < period[f]; i++) {
-        if(dd[i] == INF) continue;
-        
-        ret = min(ret, dd[i]+(tIdx-i+period[f])%period[f]);
-    }
-    
-    return ((ret == INF) ? -1 : ret);
+    return ((d[f] == INF) ? -1 : d[f]);
 }
 
 int main()
@@ -145,16 +133,24 @@ int main()
                 int w = extEuclid(period[arr[p][0]], period[i], arr[p][1], j);
                 
                 if(w != -1) {
-                    meet[arr[p][0]][i] = j; meet[i][arr[p][0]] = arr[p][1];
-                    edges[arr[p][0]].push_back({i, w}); edges[i].push_back({arr[p][0], w});
+                    edges[arr[p][0]].push_back({i, w});
+                    edges[i].push_back({arr[p][0], w});
                 }
             }
         }
     }
     
-    int ans;
-    if(target == 1) ans = tIdx;
-    else ans = dijkstra(1, target);
+    edges[target].push_back({END, tIdx});
+    period[END] = 1;
+    
+    /*for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= n; j++) {
+            cout << w[i][j] << " ";
+        }
+        cout << '\n';
+    }*/
+    
+    int ans = dijkstra(1, END);
     
     cout << ans;
 
