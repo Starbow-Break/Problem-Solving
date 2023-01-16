@@ -70,13 +70,11 @@ int extEuclid(int a, int b, int r1, int r2) {
     }
     
     x1 *= r/g; y1 *= r/g;
-    if(x1 < 0) {
-        int k = (b-1-x1)/b;
-        x1 += k*b; x2 -= k*a;
+    while(x1 < 0) {
+        x1 += b; x2 -= a;
     }
-    if(x1 >= b) {
-        int k = (x1-b)/b;
-        x1 -= k*b; x2 += k*a;
+    while(x1 >= b) {
+        x1 -= b; x2 += a;
     }
     
     return a*x1+r1;
