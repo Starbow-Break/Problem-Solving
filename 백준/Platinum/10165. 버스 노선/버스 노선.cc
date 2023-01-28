@@ -1,3 +1,24 @@
+//                           _
+//                        _ooOoo_
+//                       o8888888o
+//                       88" . "88
+//                       (| -_- |)
+//                       O\  =  /O
+//                    ____/`---'\____
+//                  .'  \\|     |//  `.
+//                 /  \\|||  :  |||//  \
+//                /  _||||| -:- |||||_  \
+//                |   | \\\  -  /'| |   |
+//                | \_|  `\`---'//  |_/ |
+//                \  .-\__ `-. -'__/-.  /
+//              ___`. .'  /--.--\  `. .'___
+//           ."" '<  `.___\_<|>_/___.' _> \"".
+//          | | :  `- \`. ;`. _/; .'/ /  .' ; |
+//          \  \ `-.   \_\_`. _.'_/_/  -' _.' /
+//===========`-.`___`-.__\ \___  /__.-'_.'_.-'================
+//                        `=--=-'                    hjw
+//                         No WA
+
 #include <iostream>
 #include <algorithm>
 #include <string>
@@ -28,6 +49,7 @@ struct node {
                 else
                     return len[num] < len[N.num];
             }
+            else isStart;
         }
     }
 };
@@ -60,9 +82,11 @@ int main()
     
     queue<int> q;
     for(int i = 0; i < vec.size(); i++) {
+        if(!bus[vec[i].num]) continue;
+        
         if(vec[i].isStart) q.push(vec[i].num);
         else {
-            if(!q.empty() && q.front() == vec[i].num) {
+            if(!q.empty() && (q.front() == vec[i].num)) {
                 q.pop();
                 while(!q.empty() && !bus[q.front()]) q.pop();
             }
