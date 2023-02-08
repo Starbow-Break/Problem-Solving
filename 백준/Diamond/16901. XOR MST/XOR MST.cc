@@ -32,12 +32,12 @@ class Trie {
         }
         
         //트라이 비우기
-        void clear(int bit = 29) {
+        void clear() {
             if(child[0] != NULL)
-                child[0]->clear(bit-1);
+                child[0]->clear();
             
             if(child[1] != NULL)
-                child[1]->clear(bit-1);
+                child[1]->clear();
             
             free(child[0]); child[0] = NULL;
             free(child[1]); child[1] = NULL; 
