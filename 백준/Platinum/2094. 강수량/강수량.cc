@@ -64,35 +64,25 @@ int main()
         bool cy = i <= N && year[i] == y;
         bool cx = j <= N && year[j] == x;
         
-        //cout << i << " " << j << '\n';
-        if(x-y == 1) {
-            if(cx && cy) {
-                if(rain[i] < rain[j]) cout << "false";
-                else cout << "true";
+        int t;
+        if(cy) t = query(1, N, 1, i+1, j-1);
+        else t = query(1, N, 1, i, j-1);
+            
+        if(!cy && !cx) cout << "maybe";
+        else if(cy && cx) {
+            if(rain[i] >= rain[j] && t < rain[j]) {
+                if(j-i == x-y) cout << "true";
+                else cout << "maybe";
             }
+            else cout << "false";
+        }
+        else if(cy) {
+            if(rain[i] <= t) cout << "false";
             else cout << "maybe";
         }
         else {
-            int t;
-            if(cy) t = query(1, N, 1, i+1, j-1);
-            else t = query(1, N, 1, i, j-1);
-            
-            if(!cy && !cx) cout << "maybe";
-            else if(cy && cx) {
-                if(rain[i] >= rain[j] && t < rain[j]) {
-                    if(j-i == x-y) cout << "true";
-                    else cout << "maybe";
-                }
-                else cout << "false";
-            }
-            else if(cy) {
-                if(rain[i] <= t) cout << "false";
-                else cout << "maybe";
-            }
-            else {
-                if(t < rain[j]) cout << "maybe";
-                else cout << "false";
-            }
+            if(t < rain[j]) cout << "maybe";
+            else cout << "false";
         }
         
         cout << '\n';
