@@ -22,7 +22,7 @@ int main()
     cin.tie(NULL); cout.tie(NULL);
     
     ll k, a, x, b, y; cin >> k >> a >> x >> b >> y;
-    cout << max(0LL, min((k-a)*x+(k-(a+b))*y, (k-b)*y+(k-(a+b))*x));
+    cout << max(0LL, max((k-a)*x+(k-(a+b))*y, (k-b)*y+(k-(a+b))*x));
 
     return 0;
 }
