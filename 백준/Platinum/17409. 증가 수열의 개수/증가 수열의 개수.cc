@@ -20,7 +20,7 @@ typedef pair<double, double> pdd;
 
 //세그먼트 트리에 사용할 노드
 struct node {
-    ll cnt[11];
+    int cnt[11];
     
     //노드 초기화
     void init() {
