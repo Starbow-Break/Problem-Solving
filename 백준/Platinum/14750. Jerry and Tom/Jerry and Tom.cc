@@ -40,20 +40,7 @@ bool intersect(pii m, pii h, pii w1, pii w2) {
     
     if(ch*cm != 0 && cw1*cw2 != 0) return (ch*cm < 0 && cw1*cw2 < 0);
     
-    if(ch*cm == 0 && cw1*cw2 == 0) {
-        if(h == w1) {
-            if(h.first == m.first) {
-                return min(h.second, m.second) < w2.second && w2.second < max(h.second, m.second);
-            }
-            return min(h.first, m.first) < w2.first && w2.first < max(h.first, m.first);
-        }
-        if(h == w2) {
-            if(h.first == m.first) {
-                return min(h.second, m.second) < w1.second && w1.second < max(h.second, m.second);
-            }
-            return min(h.first, m.first) < w1.first && w1.first < max(h.first, m.first);
-        }
-            
+    if(ch*cm == 0 && cw1*cw2 == 0) {  
         if(w1.first == w2.first) {
             return !((max(w1.second, w2.second) < h.second && max(w1.second, w2.second) < m.second) ||
                 (min(w1.second, w2.second) > h.second && min(w1.second, w2.second) > m.second));
@@ -64,14 +51,12 @@ bool intersect(pii m, pii h, pii w1, pii w2) {
 
     if(cw1*cw2 == 0) {
         if(cw1 == 0) {
-            if(w1 == h) return false;
             if(h.first == m.first) {
                 return min(h.second, m.second) < w1.second && w1.second < max(h.second, m.second);
             }
             return min(h.first, m.first) < w1.first && w1.first < max(h.first, m.first);
         }
         if(cw2 == 0) {
-            if(w2 == h) return false;
             if(h.first == m.first) {
                 return min(h.second, m.second) < w2.second && w2.second < max(h.second, m.second);
             }
