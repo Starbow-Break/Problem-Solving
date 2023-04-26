@@ -21,17 +21,17 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
     
-    int N; cin >> N; string s; cin >> s;
+    int N; cin >> N;
+    string s; cin >> s;
     
     bool check = false;
-    for(int i = 0; i < N && !check; i++) {
-        int a = 0, b = N-1-i, cnt = 0;
-        while(b < N) {
-            cnt += (s[a] != s[b]);
-            a++; b++;
+    for(int j = N-1; j > 0 && !check; j--) {
+        int cnt = 0;
+        for(int i = 0; i+j < N; i++) {
+            cnt += (s[i] != s[i+j]);
         }
         
-        check = (cnt == 1);
+        if(cnt == 1) check = true;
     }
     
     cout << (check ? "YES" : "NO");
