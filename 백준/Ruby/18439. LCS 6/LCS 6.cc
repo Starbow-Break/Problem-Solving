@@ -21,6 +21,7 @@ typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<double, double> pdd;
 
+//bitset 뺄셈
 template<size_t _Nw> void _M_sub(_Base_bitset<_Nw> &A, const _Base_bitset<_Nw> &B) {
 	for(int i=0, c=0; i<_Nw; i++)
 		c=_subborrow_u64(c, A._M_w[i], B._M_w[i], (unsigned long long*)&A._M_w[i]);
@@ -40,12 +41,10 @@ int main()
     int n = S.length(), m = T.length();
     bitset<50000> B(0), match[26], x, y;
     
-    for(int i = 0; i < 26; i++) {
-        for(int j = 0; j < m; j++) {
-            match[i][j] = (T[j] == (char)('A'+i));
-        }
-    }
+    //match 전처리
+    for(int j = 0; j < m; j++) match[T[j]-'A'][j] = 1;
     
+    //B[n] 구하기
     for(int i = 0; i < n; i++) {
         x = match[S[i]-'A'] | B;
         y = (B << 1); y[0] = 1;
