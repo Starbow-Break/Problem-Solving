@@ -55,14 +55,12 @@ void ntt(vector<ll> &A, bool inv = false) {
         ll w = modPow(pri, (mod-1)/len, mod);
         if(inv) w = inverse(w, mod);
         
-        ll t = modPow(w, (mod-1)/2, mod);
-        
         for(int i = 0; i < sz; i += len) {
             ll e = 1;
             for(int j = 0; j < len/2; j++) {
                 ll odd = A[i+j+len/2], even = A[i+j];
                 A[i+j] = (even+e*odd)%mod;
-                A[i+j+len/2] = (even+(mod-e)*t%mod*odd)%mod;
+                A[i+j+len/2] = (even+(mod-e)*odd)%mod;
                 e *= w; e %= mod;
             }
         }
@@ -90,11 +88,6 @@ vector<ll> polyMultiple(vector<ll> A, vector<ll> B) {
     }
 
     ntt<mod, pri>(ret, true);
-    
-    /*for(int i = 0; i < sz; i++) {
-        cout << ret[i] << ' ';
-    }
-    cout << '\n';*/
     
     return ret;
 }

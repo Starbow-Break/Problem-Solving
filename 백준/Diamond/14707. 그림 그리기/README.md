@@ -1,10 +1,10 @@
-# [Diamond IV] 그림 그리기 - 14707 
+# [Diamond V] 그림 그리기 - 14707 
 
 [문제 링크](https://www.acmicpc.net/problem/14707) 
 
 ### 성능 요약
 
-메모리: 15052 KB, 시간: 304 ms
+메모리: 15048 KB, 시간: 300 ms
 
 ### 분류
 
