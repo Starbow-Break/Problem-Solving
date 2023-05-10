@@ -34,73 +34,53 @@ int main()
         ans[i] += v;
     }
     
-    while(1) {
-        bool isChange = false;
-        
-        for(int i = 1'000'096; i >= 1; i--) {
-            if(0 <= ans[i] && ans[i] <= 2) {
-                if(ans[i+1] == 0 && ans[i+2] == 2 && ans[i+3] == 0) {
-                    ans[i]++, ans[i+1] = 0, ans[i+2] = 0, ans[i+3] = 1;
-                    isChange = true;
-                }
-                else if(ans[i+1] == 0 && ans[i+2] == 3 && ans[i+3] == 0) {
-                    ans[i]++, ans[i+1] = 0, ans[i+2] = 1, ans[i+3] = 1;
-                    isChange = true;
-                }
-                else if(ans[i+1] == 1 && ans[i+2] == 2 && ans[i+3] == 0) {
-                    ans[i+1] = 0, ans[i+2] = 1, ans[i+3] = 1;
-                    isChange = true;
-                }
-                else if(ans[i+1] == 2 && ans[i+2] == 1 && ans[i+3] == 0) {
-                    ans[i+1] = 1, ans[i+2] = 0, ans[i+3] = 1;
-                    isChange = true;
-                }
+    for(int i = 1'000'096; i >= 1; i--) {
+        if(0 <= ans[i] && ans[i] <= 2) {
+            if(ans[i+1] == 0 && ans[i+2] == 2 && ans[i+3] == 0) {
+                ans[i]++, ans[i+1] = 0, ans[i+2] = 0, ans[i+3] = 1;
+            }
+            else if(ans[i+1] == 0 && ans[i+2] == 3 && ans[i+3] == 0) {
+                ans[i]++, ans[i+1] = 0, ans[i+2] = 1, ans[i+3] = 1;
+            }
+            else if(ans[i+1] == 1 && ans[i+2] == 2 && ans[i+3] == 0) {
+                ans[i+1] = 0, ans[i+2] = 1, ans[i+3] = 1;
+            }
+            else if(ans[i+1] == 2 && ans[i+2] == 1 && ans[i+3] == 0) {
+                ans[i+1] = 1, ans[i+2] = 0, ans[i+3] = 1;
             }
         }
+    }
         
-        if(ans[1] == 3 && ans[2] == 0) {
-            ans[1] = 1, ans[2] = 1;
-        }
-        if(ans[1] == 2 && ans[2] == 0) {
-            ans[1] = 0, ans[2] = 1;
-        }
-        if(ans[1] == 2 && ans[2] == 1 && ans[3] == 0) {
-            ans[1] = 1, ans[2] = 0, ans[3] = 1;
-        }
-        if(ans[1] == 0 && ans[2] == 3 && ans[3] == 0) {
-            ans[1] = 1, ans[2] = 1, ans[3] = 1;
-        }
-        if(ans[1] == 0 && ans[2] == 2 && ans[3] == 0) {
-            ans[1] = 1, ans[2] = 0, ans[3] = 1;
-        }
-        if(ans[1] == 0 && ans[2] == 2 && ans[3] == 1 && ans[4] == 0) {
-            ans[1] = 0, ans[2] = 1, ans[3] = 0, ans[4] = 1;
-        }
-        
-        if(!isChange) break;
+    if(ans[1] == 3 && ans[2] == 0) {
+        ans[1] = 1, ans[2] = 1;
+    }
+    if(ans[1] == 2 && ans[2] == 0) {
+        ans[1] = 0, ans[2] = 1;
+    }
+    if(ans[1] == 2 && ans[2] == 1 && ans[3] == 0) {
+        ans[1] = 1, ans[2] = 0, ans[3] = 1;
+    }
+    if(ans[1] == 0 && ans[2] == 3 && ans[3] == 0) {
+        ans[1] = 1, ans[2] = 1, ans[3] = 1;
+    }
+    if(ans[1] == 0 && ans[2] == 2 && ans[3] == 0) {
+        ans[1] = 1, ans[2] = 0, ans[3] = 1;
+    }
+    if(ans[1] == 0 && ans[2] == 2 && ans[3] == 1 && ans[4] == 0) {
+        ans[1] = 0, ans[2] = 1, ans[3] = 0, ans[4] = 1;
     }
     
-    while(1) {
-        bool isChange = false;
-        
-        for(int i = 1; i <= 1'000'097; i++) {
-            if(ans[i] == 1 && ans[i+1] == 1 && ans[i+2] == 0) {
-                ans[i] = 0; ans[i+1] = 0; ans[i+2] = 1;
-                isChange = true;
-            }
+    for(int i = 1; i <= 1'000'097; i++) {
+        if(ans[i] == 1 && ans[i+1] == 1 && ans[i+2] == 0) {
+            ans[i] = 0, ans[i+1] = 0, ans[i+2] = 1;
         }
-        
-        for(int i = 1'000'097; i >= 1; i--) {
-            if(ans[i] == 1 && ans[i+1] == 1 && ans[i+2] == 0) {
-                ans[i] = 0; ans[i+1] = 0; ans[i+2] = 1;
-                isChange = true;
-            }
-        }
-        
-        if(!isChange) break;
     }
-    
-    //if(ans[0] == 1 && ans[1] == 0) swap(ans[0], ans[1]);
+        
+    for(int i = 1'000'097; i >= 1; i--) {
+        if(ans[i] == 1 && ans[i+1] == 1 && ans[i+2] == 0) {
+            ans[i] = 0, ans[i+1] = 0, ans[i+2] = 1;
+        }
+    }
     
     int len = 1'000'097;
     while(len > 1 && !ans[len]) len--;
