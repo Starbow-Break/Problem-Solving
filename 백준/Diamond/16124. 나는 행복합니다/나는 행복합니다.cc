@@ -120,8 +120,18 @@ Node segQuery(int l, int r, int idx, int i, int j) {
     return merge(a, b);
 }
 
-void init(string s) {
+void init(string &s) {
     buildTree(1, s.length(), 1, s);
+}
+
+//1번 쿼리
+void query1(int sz, int i, int j, int from, int to) {
+    segUpdate(1, sz, 1, i, j, from, to);
+}
+
+//2번 쿼리
+ll query2(int sz, int i, int j) {
+    return segQuery(1, sz, 1, i, j).getValue();
 }
 
 int main()
@@ -143,11 +153,11 @@ int main()
         int q, i, j, from, to; cin >> q;
         if(q == 1) {
             cin >> i >> j >> from >> to;
-            segUpdate(1, sz, 1, i, j, from, to);
+            query1(sz, i, j, from, to);
         }
         else {
             cin >> i >> j;
-            cout << segQuery(1, sz, 1, i, j).getValue() << '\n';
+            cout << query2(sz, i, j) << '\n';
         }
     }
     
