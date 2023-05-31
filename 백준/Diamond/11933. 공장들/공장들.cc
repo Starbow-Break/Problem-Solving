@@ -35,9 +35,11 @@ vector<pii> tr[MAX]; int centTr[MAX];
 int p[MAX][19] = {0, }, sz[MAX], centTrRoot, dep[MAX]; ll dist[MAX];
 bool factory[MAX] = {false, };
 multiset<ll> distSet[MAX];
+vector<int> vec, vec2;
 
 void init() {
     fill(factory, factory+MAX, false);
+    vec.clear(); vec2.clear();
 }
 
 //DFS
@@ -175,7 +177,7 @@ int main()
         init();
         
         int s, t; cin >> s >> t;
-        vector<int> vec, vec2;
+        
         while(s--) {
             int v; cin >> v;
             vec.push_back(v);
