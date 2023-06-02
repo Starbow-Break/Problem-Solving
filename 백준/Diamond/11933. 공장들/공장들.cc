@@ -1,6 +1,6 @@
 //#pragma GCC optimize("O3")
-//#pragma GCC optimize("Ofast")
-#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+//#pragma GCC optimize("unroll-loops")
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -34,19 +34,27 @@ ostream& operator<<(ostream &out, const pii &p) {
 const ll INF = 1'000'000'000'000'000'000;
 
 int N, M; 
-vector<pii> tr[MAX]; int centTr[MAX];
-int p[MAX][19] = {0, }, sz[MAX], centTrRoot, dep[MAX]; ll dist[MAX];
-bool factory[MAX] = {false, };
-multiset<ll> distSet[MAX];
-vector<int> vec, vec2;
+vector<pii> tr[MAX]; //트리
+int p[MAX][19] = {0, }, dep[MAX]; ll dist[MAX]; //sparse table, 깊이, 루트까지의 거리
+bool inS[MAX] = {false, }, inT[MAX] = {false, }; //S 혹은 T에 속하는지 여부
+int in[MAX]; //ETT
+vector<pll> compTr[MAX]; //압축된 트리
+ll dpS[MAX], dpT[MAX];
 
-void init() {
-    fill(factory, factory+MAX, false);
-    vec.clear(); vec2.clear();
+bool cmp(int &a, int &b) {
+    return in[a] < in[b];
 }
 
+struct cmpq {
+    bool operator()(pll &a, pll &b) {
+        return a.x > b.x;
+    }
+};
+
 //DFS
+int ord = 0;
 void dfs(int cur = 0, int prev = -1, ll depth = 0, ll distance = 0) {
+    in[cur] = ++ord;
     p[cur][0] = prev;
     dep[cur] = depth; dist[cur] = distance;
     for(auto &[next, w]: tr[cur]) {
@@ -90,76 +98,60 @@ int lca(int a, int b) {
     return a;
 }
 
-//두 노드 사이의 거리
-ll getDist(int a, int b) {
-    int l = lca(a, b);
-    return dist[a]+dist[b]-2*dist[l];
+//트리 압축
+void compress(vector<int> &vec) {
+    //압축된 트리를 생성
+    for(int i = 1; i < vec.size(); i++) {
+        int per = lca(vec[i-1], vec[i]);
+        compTr[per].push_back({vec[i], dist[vec[i]]-dist[per]});
+        compTr[vec[i]].push_back({per, dist[vec[i]]-dist[per]});
+    }
 }
 
-bool visited[MAX] = {false, };
-//서브트리의 크기 구하기
-void getSize(int cur, int prev = -1) {
-    sz[cur] = 1;
-    for(auto &[next, w]: tr[cur]) {
-        if(!visited[next] && prev != next) {
-            getSize(next, cur);
-            sz[cur] += sz[next];
+void dijkstraS(vector<int> &S) {
+    fill(dpS, dpS+MAX, INF);
+    priority_queue<pll, vector<pll>, cmpq> pq;
+    for(auto &s: S) { pq.push({0, s}); dpS[s] = 0; } 
+    
+    while(!pq.empty()) {
+        ll d = pq.top().x; int cur = pq.top().y; pq.pop();
+        if(d > dpS[cur]) continue;
+        
+        for(auto &[next, w]: compTr[cur]) {
+            if(d+w >= dpS[next]) continue;
+
+            dpS[next] = d+w;
+            pq.push({dpS[next], next});
         }
     }
 }
 
-//Centroid 구하기
-int getCent(int cur, int prev, int size) {
-    for(auto &[next, w]: tr[cur]) {
-        //크기가 size/2보다 큰 서브트리가 있으면 그 쪽으로 이동
-        if(!visited[next] && next != prev && sz[next] > size/2) {
-            return getCent(next, cur, size);
+void dijkstraT(vector<int> &T) {
+    fill(dpT, dpT+MAX, INF);
+    priority_queue<pll, vector<pll>, cmpq> pq;
+    for(auto &t: T) { pq.push({0, t}); dpT[t] = 0; } 
+    
+    while(!pq.empty()) {
+        ll d = pq.top().x; int cur = pq.top().y; pq.pop();
+        if(d > dpT[cur]) continue;
+        
+        for(auto &[next, w]: compTr[cur]) {
+            if(d+w >= dpT[next]) continue;
+            
+            dpT[next] = d+w;
+            pq.push({dpT[next], next});
         }
     }
-    return cur; //없으면 자기 자신이 Centroid 
 }
 
-//Centroid Tree 생성
-void buildCentTree(int cur = 0, int prev = -1) {
-    getSize(cur);
-    int cent = getCent(cur, -1, sz[cur]);
-    visited[cent] = true;
+ll solve(vector<int> &S, vector<int> &T) {
+    //다익스트라를 사용해서 dpS와 dpT를 구한다.
+    dijkstraS(S); dijkstraT(T);
     
-    if(prev != -1) centTr[cent] = prev;
-    else centTrRoot = cent;
-    
-    for(auto &[next, w]: tr[cent]) {
-        if(!visited[next]) buildCentTree(next, cent);
-    }
-}
-
-//x번 노드의 색 변경
-void update(int x, bool v) {
-    factory[x] = v; //색 변경
-    int i = x;
-    while(1) {
-        ll d = getDist(i, x);
-        if(factory[x]) distSet[i].insert(d);
-        else distSet[i].erase(distSet[i].find(d));
-        if(i == centTrRoot) break;
-        i = centTr[i];
-    }
-}
-
-//x번 노드와 가장 가까운 흰색 노드와의 거리
-ll query(int x) {
-    int i = x;
     ll ret = INF;
-    while(1) {
-        ll d = getDist(i, x);
-        if(!distSet[i].empty()) {
-            ret = min(ret, d+*distSet[i].begin());
-        }
-        if(i == centTrRoot) break;
-        i = centTr[i];
-    }
-    if(ret == INF) return -1;
-    else return ret;
+    for(int i = 0; i < N; i++) ret = min(ret, dpS[i]+dpT[i]);
+    
+    return ret;
 }
 
 int main()
@@ -168,35 +160,46 @@ int main()
     cin.tie(NULL); cout.tie(NULL);
     
     cin >> N >> M;
+    //트리 생성
     for(int i = 1; i < N; i++) {
         int a, b, w; cin >> a >> b >> w;
         tr[a].push_back({b, w}); tr[b].push_back({a, w});
     }
     
+    //DFS 돌면서 원래 트리에서 필요한 값을 얻는다.
     dfs(); buildSparse();
-    buildCentTree();
     
+    vector<int> S, T, ST; 
     while(M--) {
-        init();
-        
-        int s, t; cin >> s >> t;
-        
-        while(s--) {
+        //S 또는 T에 속하는 정점 받기
+        int n, m; cin >> n >> m;
+        for(int i = 0; i < n; i++) {
             int v; cin >> v;
-            vec.push_back(v);
+            inS[v] = true; S.push_back(v); ST.push_back(v);
         }
-        while(t--) {
+        for(int i = 0; i < m; i++) {
             int v; cin >> v;
-            vec2.push_back(v);
-            update(v, 1);
+            inT[v] = true; T.push_back(v); ST.push_back(v);
         }
         
-        ll ans = INF;
-        for(auto &v: vec) ans = min(ans, query(v));
+        //in[] 값 순으로 정렬, 이 후 인접한 점끼리의 lca를 구해서 넣는다.
+        sort(ST.begin(), ST.end(), cmp);
+        for(int i = 0; i < n+m-1; i++) {
+            ST.push_back(lca(ST[i], ST[i+1]));
+        }
+        //재 정렬 후 중복 제거
+        sort(ST.begin(), ST.end(), cmp);
+        ST.erase(unique(ST.begin(), ST.end()), ST.end());
         
-        cout << ans << '\n';
+        compress(ST); //선별한 정점을 사용해서 트리 압축
         
-        for(auto &v: vec2) update(v, 0);
+        cout << solve(S, T) << '\n'; //압축된 트리에서 답을 구한다.
+        
+        //다음 테스트 케이스를 위해 초기화
+        for(auto &s: S) inS[s] = false;
+        for(auto &t: T) inT[t] = false;
+        for(auto &v: ST) compTr[v].clear();
+        S.clear(); T.clear(); ST.clear();
     }
 
     return 0;
