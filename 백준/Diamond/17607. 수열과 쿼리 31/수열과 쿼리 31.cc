@@ -56,14 +56,14 @@ void lazy(node *cur) {
 
 //cur 노드를 업데이트
 void update(node *cur) {
-    lazy(cur);
+    lazy(cur); //cur 갱신
     
     cur->cnt = 1;
     cur->maxL = cur->maxR = 0;
     cur->maxV = cur->value;
     
-    if(cur->l) lazy(cur->l);
-    if(cur->r) lazy(cur->r);
+    if(cur->l) lazy(cur->l); //cur->l 갱신
+    if(cur->r) lazy(cur->r); //cur->r 갱신
     
     cur->cnt = (cur->l ? cur->l->cnt : 0)+1+(cur->r ? cur->r->cnt : 0);
     
@@ -140,8 +140,6 @@ void initTree(int n) {
     arr[n+1] = cur;
     
     for(int i = n+1; i >= 0; i--) update(arr[i]);
-    
-    //cout << root->maxV << '\n'; cout << "--------------------" << '\n';
 }
 
 //k번째 원소 찾기 (k는 0-based)
@@ -180,6 +178,7 @@ void reverse(int l, int r) {
     node *cur = root->r->l; //[l, r]구간 작업을 위한 노드로 이동
     cur->inv = !cur->inv; //뒤집기
     
+    //구간을 뒤집으면 그 구간을 포함하는 노드들도 영향을 받으니 위로 올라가면서 노드를 갱신해 준다.
     while(cur) {
         update(cur); cur = cur->p;
     }
@@ -203,29 +202,8 @@ int main()
     int m; cin >> m;
     while(m--) {
         int q, l, r; cin >> q >> l >> r;
-        if(q == 1) {
-            reverse(l, r);
-            
-            /*cout << "reversed " << l << ' ' << r << '\n';
-            for(int i = 1; i <= n; i++) {
-                if(i == l) cout << "> ";
-                findKth(i);
-                cout << root->value << ' ';
-                if(i == r) cout << "< ";
-            }
-            cout << '\n';*/
-        }
-        else {
-            cout << query(l, r) << '\n';
-            
-            /*for(int i = 1; i <= n; i++) {
-                if(i == l) cout << "| ";
-                findKth(i);
-                cout << root->value << ' ';
-                if(i == r) cout << "| ";
-            }
-            cout << '\n';*/
-        }
+        if(q == 1) reverse(l, r);
+        else cout << query(l, r) << '\n';
     }
 
     return 0;
