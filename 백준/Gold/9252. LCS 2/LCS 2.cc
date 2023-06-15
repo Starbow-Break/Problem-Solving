@@ -1,55 +1,47 @@
-#include <iostream>
-#include <string>
-#include <algorithm>
+#define private public
+#include <bitset>
+#undef private
+#include <bits/stdc++.h>
+#include <x86intrin.h>
 
 using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+typedef pair<double, double> pdd;
 
-int dp[1001][1001] = {0, };
+int dp[1'001][1'001] = {0, };
 
-int main()
-{
-    ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	
-    string A, B;
-    cin >> A >> B;
+string getLCS(string &s, string &t) {
+    string ret = "";
     
-    int lenA = A.length(); int lenB = B.length();
-    
-    for(int i = 1; i <= lenA; i++) {
-        for(int j = 1; j <= lenB; j++) {
-            if(A[i-1] == B[j-1]) {
-                dp[i][j] = dp[i-1][j-1]+1;
-            }
-            else {
-                if(dp[i-1][j] > dp[i][j-1]) {
-                    dp[i][j] = dp[i-1][j];
-                }
-                else {
-                    dp[i][j] = dp[i][j-1];
-                }
-            }
+    for(int a = 1; a <= s.length(); a++) {
+        for(int b = 1; b <= t.length(); b++) {
+            if(s[a-1] == t[b-1])
+                dp[a][b] = dp[a-1][b-1]+1;
+            else
+                dp[a][b] = max(dp[a-1][b], dp[a][b-1]);
         }
     }
     
-    int len = dp[lenA][lenB]; char ans[1000]; int idx = 0;
-    int i = lenA; int j = lenB;
-    while(len != 0) {
-        if(A[i-1] == B[j-1]) {
-            ans[idx] = A[i-1]; idx++;
-            len--;
-            i--; j--;
+    int r = s.length(), c = t.length();
+    while(r > 0 && c > 0) {
+        if(s[r-1] == t[c-1]) {
+            ret = s[r-1] + ret;
+            r--; c--;
         }
-        else if(len == dp[i][j-1])
-            j--;
-        else
-            i--;
-    } 
-
-    cout << dp[lenA][lenB] << '\n';
-    for(int k = idx-1; k >= 0; k--)
-        cout << ans[k];
+        else {
+            if(dp[r][c] == dp[r][c-1]) c--;
+            else r--;
+        }
+    }
     
-    return 0;
+    return ret;
+}
+
+int main() {
+    string s, t; cin >> s >> t;
+    string lcs = getLCS(s, t);
+    
+    cout << lcs.length() << '\n' << lcs;
 }
