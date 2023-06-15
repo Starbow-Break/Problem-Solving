@@ -31,8 +31,8 @@ string getLCS(string &s, string &t) {
             r--; c--;
         }
         else {
-            if(dp[r][c] == dp[r][c-1]) c--;
-            else r--;
+            if(dp[r-1][c] == dp[r][c]) r--;
+            else c--;
         }
     }
     
