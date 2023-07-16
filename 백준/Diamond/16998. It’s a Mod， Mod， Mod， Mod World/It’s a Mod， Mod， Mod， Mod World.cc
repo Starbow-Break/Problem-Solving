@@ -38,7 +38,8 @@ int main()
         int p, q, n; cin >> p >> q >> n;
         if(p >= q) p %= q;
         int g = gcd(p, q);
-        cout << 1LL*n*(n+1)/2*p-q*f(p/g, q/g, n) << '\n';
+        p /= g; q /= g;
+        cout << (1LL*n*(n+1)/2*p-q*f(p, q, n))*g << '\n';
     }
 
     return 0;
