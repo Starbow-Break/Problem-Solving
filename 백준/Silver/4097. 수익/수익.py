@@ -17,4 +17,5 @@ while True:
     ans = _sum[1]
     for i in range(2, N+1):
         ans = max(ans, _sum[i]-_min[i-1])
-    print(ans)
+    sys.stdout.write(str(ans))
+    sys.stdout.write('\n')
