@@ -13,7 +13,7 @@ using int128 = __int128_t;
 
 const int MAX_SIZE = 1e5; //입력 최댓값
 const int MAX = 2e9; //다루는 x좌표의 최댓값
-const ll INF = 4e18; //무한대 직선의 기울기
+const ll INF = 4e18; //무한대
 int cnt = 0;
 
 //Li-Chao Tree의 노드
@@ -37,8 +37,8 @@ ll getValue(pll line, ll x) {
     return line.first*x+line.second;
 }
 
-Node tree[3'200'000]; int sz = 0;
-int root[MAX_SIZE+1];
+Node tree[3'200'000]; int sz = 0; //Li-Chao+PST
+int root[MAX_SIZE+1]; //루트 노드들
 vector<pii> edges[MAX_SIZE+1]; //도시의 도로
 int S[MAX_SIZE+1], V[MAX_SIZE+1]; //S_i, V_i
 int dist[MAX_SIZE+1]; //루트부터 해당 정점까지의 거리
@@ -82,7 +82,7 @@ void _add(int prev, int cur, pll line) {
     }
 }
     
-//쿼리 수행
+//현재까지 삽입된 직선들 중에서 x에서 함숫값의 최솟값 구하기
 ll _query(int node, ll x) {
     if(node == -1) return INF;
     int s = tree[node].s, e = tree[node].e;
@@ -91,13 +91,13 @@ ll _query(int node, ll x) {
     return min(getValue(tree[node].line, x), _query(tree[node].r, x));
 }
     
-//외부에서 사용할 add 함수
-void add(int s, int e, int prev, int cur, pll line) {
+//add 함수
+void add(int prev, int cur, pll line) {
     tree[sz] = Node(0, MAX); sz++; root[cur] = sz-1;
     _add(root[prev], root[cur], line);
 }
     
-//외부에서 사용할 query 함수
+//query 함수
 ll query(int cur, ll x) {
     return _query(root[cur], x);
 }
@@ -110,7 +110,7 @@ void dfs(int start = 1) {
         int cur = s.top().first, bef = s.top().second; s.pop();
         
         if(bef != -1) {
-            add(0, MAX, bef, cur, {-dist[bef], dp[bef]});
+            add(bef, cur, {-dist[bef], dp[bef]});
             dp[cur] = query(cur, V[cur])+S[cur]+1LL*dist[cur]*V[cur];
         }
         
@@ -129,16 +129,13 @@ int main()
     cin.tie(NULL); cout.tie(NULL);
     
     int N; cin >> N;
-    //N = 100000;
     for(int i = 0; i < N-1; i++) {
         int a, b, w; cin >> a >> b >> w;
-        //a = i+1, b = i+2, w = 10000;
         edges[a].push_back({b, w});
         edges[b].push_back({a, w});
     }
     for(int i = 2; i <= N; i++) {
         cin >> S[i] >> V[i];
-        //S[i] = i+1; V[i] = 2*i;
     }
     
     tree[sz] = Node(0, MAX); sz++;
@@ -146,7 +143,6 @@ int main()
     dfs();
     
     for(int i = 2; i <= N; i++) cout << dp[i] << ' ';
-    //cout << sizeof(Node)*sz/(1024*1024) << "MB";
     
     return 0;
 }
