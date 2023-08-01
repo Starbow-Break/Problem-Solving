@@ -137,32 +137,6 @@ int main()
         }
     }
     
-    // cout << "-----------------------\n";
-    // for(int i = 0; i < N; i++) {
-    //     for(int j = 0; j < N; j++) {
-    //         cout << shark[i][j] << ' ';
-    //     }
-    //     cout << '\n';
-    // }
-    // cout << "-----------------------\n";
-    // for(int i = 0; i < N; i++) {
-    //     for(int j = 0; j < N; j++) {
-    //         cout << smell_owner[i][j] << ' ';
-    //     }
-    //     cout << '\n';
-    // }
-    // cout << "-----------------------\n";
-    // for(int i = 0; i < N; i++) {
-    //     for(int j = 0; j < N; j++) {
-    //         cout << smell_remain[i][j] << ' ';
-    //     }
-    //     cout << '\n';
-    // }
-    // cout << "-----------------------\n";
-    // for(int i = 1; i <= M; i++) cout << d[i] << ' ';
-    // cout << '\n';
-    // cout << "-----------------------\n";
-    
     
     int ans = 0;
     while(ans <= 1000) {
@@ -174,33 +148,6 @@ int main()
         
         ans++;
         move_shark();
-        
-        // cout << "time = " << ans << '\n';
-        // cout << "-----------------------\n";
-        // for(int i = 0; i < N; i++) {
-        //     for(int j = 0; j < N; j++) {
-        //         cout << shark[i][j] << ' ';
-        //     }
-        //     cout << '\n';
-        // }
-        // cout << "-----------------------\n";
-        // for(int i = 0; i < N; i++) {
-        //     for(int j = 0; j < N; j++) {
-        //         cout << smell_owner[i][j] << ' ';
-        //     }
-        //     cout << '\n';
-        // }
-        // cout << "-----------------------\n";
-        // for(int i = 0; i < N; i++) {
-        //     for(int j = 0; j < N; j++) {
-        //         cout << smell_remain[i][j] << ' ';
-        //     }
-        //     cout << '\n';
-        // }
-        // cout << "-----------------------\n";
-        // for(int i = 1; i <= M; i++) cout << d[i] << ' ';
-        // cout << '\n';
-        // cout << "-----------------------\n";
     }
     
     cout << -1;
