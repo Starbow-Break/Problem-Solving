@@ -1,22 +1,11 @@
-pos = [-1 for _ in range(14)]
-def nQueen(N, row):
-    if row == N:
-        return 1
-    
+def nQueen(N, r, pos):
+    if r == N: return 1
     ret = 0
-    for col in range(N):
-        check = True
-        for i in range(row):
-            if pos[i]-col == 0 or pos[i]-col == row-i or pos[i]-col == i-row:
-                check = False
-                break
-        if check:
-            pos[row] = col
-            ret += nQueen(N, row+1)
-            pos[row] = -1
-    
+    for c in range(N):
+        for i in range(r):
+            if pos[i]-c == 0 or pos[i]-c == r-i or pos[i]-c == i-r: break
+        else:
+            pos[r] = c
+            ret += nQueen(N, r+1, pos)
     return ret
-    
-
-N = int(input())
-print(f'{nQueen(N, 0)}')
+print(f'{nQueen(int(input()), 0, [-1 for _ in range(14)])}')
