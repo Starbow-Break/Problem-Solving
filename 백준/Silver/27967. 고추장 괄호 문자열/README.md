@@ -4,11 +4,11 @@
 
 ### 성능 요약
 
-메모리: 2024 KB, 시간: 0 ms
+메모리: 31256 KB, 시간: 44 ms
 
 ### 분류
 
-백트래킹, 그리디 알고리즘
+브루트포스 알고리즘, 그리디 알고리즘
 
 ### 문제 설명
 
@@ -16,7 +16,7 @@
 
 <p>바로 아래엔 선생님이 아끼고 아끼던 완벽한 형태의 올바른 괄호 문자열이 있었는데 여기에 고추장이 묻어버렸다. </p>
 
-<p>올바른 괄호 문자열이란, 두 가지 괄호 <span style="color:#e74c3c;"><code>(</code></span>와 <span style="color:#e74c3c;"><code>)</code></span>만으로 구성된 문자열 중에서 괄호의 짝이 맞는 문자열을 뜻한다. 한 쌍의 괄호 <span style="color:#e74c3c;"><code>()</code></span>를 기본 올바른 괄호 문자열이라 하자. 만약 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D465 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$x$</span></mjx-container>가 올바른 괄호 문자열이라면, 기본 올바른 괄호 문자열 사이에 이를 넣은 새로운 문자열 <span style="color:#e74c3c;"><code>(</code></span> <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D465 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$x$</span></mjx-container> <span style="color:#e74c3c;"><code>)</code></span>도 올바른 괄호 문자열이 되며, 두 개의 올바른 괄호 문자열 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D465 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$x$</span></mjx-container>, <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D466 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>y</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$y$</span></mjx-container>를 연달아 붙인 문자열 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D465 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D466 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi><mi>y</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$xy$</span></mjx-container>도 올바른 괄호 문자열이 된다. 이러한 방식으로 구성할 수 없는 모든 문자열은 올바른 괄호 문자열이 아니다.</p>
+<p>올바른 괄호 문자열이란, 두 가지 괄호 <span style="color:#e74c3c;"><code>(</code></span>와 <span style="color:#e74c3c;"><code>)</code></span>만으로 구성된 문자열 중에서 괄호의 짝이 맞는 문자열을 뜻한다. 한 쌍의 괄호 <span style="color:#e74c3c;"><code>()</code></span>를 기본 올바른 괄호 문자열이라 하자. 만약 $x$가 올바른 괄호 문자열이라면, 기본 올바른 괄호 문자열 사이에 이를 넣은 새로운 문자열 <span style="color:#e74c3c;"><code>(</code></span> $x$ <span style="color:#e74c3c;"><code>)</code></span>도 올바른 괄호 문자열이 되며, 두 개의 올바른 괄호 문자열 $x$, $y$를 연달아 붙인 문자열 $xy$도 올바른 괄호 문자열이 된다. 이러한 방식으로 구성할 수 없는 모든 문자열은 올바른 괄호 문자열이 아니다.</p>
 
 <p>예를 들어, <span style="color:#e74c3c;"><code>()(())</code></span>와 <span style="color:#e74c3c;"><code>((()))</code></span>는 올바른 괄호 문자열이지만, <span style="color:#e74c3c;"><code>(((</code></span>, <span style="color:#e74c3c;"><code>())</code></span>, <span style="color:#e74c3c;"><code>(()</code></span>, <span style="color:#e74c3c;"><code>)(()</code></span> 는 올바른 괄호 문자열이 아니다.</p>
 
@@ -24,7 +24,7 @@
 
 ### 입력 
 
- <p>첫 번째 줄에 괄호 문자열의 길이 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$N$</span></mjx-container>이 주어진다. <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c2264"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c2264"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="4"><mjx-c class="mjx-c32"></mjx-c><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><mn>2</mn><mo>≤</mo><mi>N</mi><mo>≤</mo><mn>20</mn><mo stretchy="false">)</mo></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$(2 \le N \le 20)$</span> </mjx-container></p>
+ <p>첫 번째 줄에 괄호 문자열의 길이 $N$이 주어진다. $(2 \le N \le 20)$</p>
 
 <p>두 번째 줄에 괄호 문자열이 주어진다. 이 괄호 문자열은 <span style="color:#e74c3c;"><code>(</code></span>와 <span style="color:#e74c3c;"><code>)</code></span>, 그리고 고추장이 묻은 자리인 <span style="color:#e74c3c;"><code>G</code></span>로 이루어져 있다.</p>
 
