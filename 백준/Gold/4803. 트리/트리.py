@@ -10,11 +10,11 @@ def bfs(start):
     q = deque([start])
     # visited[start] = 1
     while q:  # q가 빌 때까지
-        v = q.popleft()
-        # visited[v] = 1  # !! 밸 때 visited 갱신하기!!
+        v = q.popleft()        
         if visited[v] == 1:
             result = False # 트리 아님
-        visited[v] = 1
+        else:
+            visited[v] = 1 #뺄 때 visited 갱신하기!!
         for i in range(1, n + 1):
             if arr[v][i] == 1 and visited[i] == 0:  # 연결되어있고 방문하지 않았다면,
                 q.append(i)
