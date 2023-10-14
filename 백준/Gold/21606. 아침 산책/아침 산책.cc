@@ -48,11 +48,13 @@ int main()
     
     ll ans = 0;
     for(int i = 1; i <= N; i++) {
-        if(s[i-1] == '1') {
+        if(s[i-1] == '0') {
             int t = dfs(i);
             ans += 1LL*t*(t-1);
         }
     }
+    
+    for(int i = 1; i < N; i++) ans += 2*(!visited[i]);
     
     cout << ans;
     
