@@ -42,7 +42,7 @@ int main()
         pq.push({arr[i]/i+(arr[i]%i > 0), i});
     }
     
-    int slope = -(N-1)*N/2;
+    ll slope = -1LL*(N-1)*N/2;
     int x = 0;
     
     while(slope < 0) {
