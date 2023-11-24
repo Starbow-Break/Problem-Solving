@@ -1,21 +1,24 @@
+#include <cstdio>
 #include <iostream>
 
 using namespace std;
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL); cout.tie(NULL);
-    
-    int N; cin >> N;
-    N = 10000;
-    cout << N << '\n';
-    long long sum = 0, v;
-    for(int i = 1; i <= N; i++) {
-        cin >> v; sum += v;
+    char buffer[50000000];
+    fread(buffer, sizeof(char), 50000000, stdin);
+    int N = 0, i;
+    long long sum = 0;
+    for(i = 0; buffer[i] != '\n'; i++) N = N*10+buffer[i]-'0';
+    for(int j = 0; j < N; j++) {
+        int v = 0;
+        for(i++; buffer[i] != '\n'; i++) {
+            v = v*10+buffer[i]-'0';
+        }
+        sum += v;
     }
     
-    cout << sum;
-    
+    cout << N << '\n' << sum << '\n';
+
     return 0;
 }
