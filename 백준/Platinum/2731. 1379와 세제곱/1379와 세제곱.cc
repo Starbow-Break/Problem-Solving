@@ -26,18 +26,16 @@ int main()
         ll w = 1;
         ll ans = 0;
         while(w <= s) {
-            for(int i = 1; i <= 9; i++) {
+            for(int i = 0; i <= 9; i++) {
                 int128 cur = i*w+ans;
                 cur = cur*cur*cur;
                 cur = cur%(10*w);
                 if(cur == s%(10*w)) {
                     ans = i*w+ans;
-                    
+                    w *= 10;
                     break;
                 }
             }
-            
-            w *= 10;
         }
         
         cout << ans << '\n';
