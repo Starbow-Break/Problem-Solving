@@ -28,7 +28,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
     
-    int delta[200'001] = {0, }; int offset = 100'000;
+    int delta[100'001] = {0, }; int offset = 50'000;
     int N; cin >> N;
     
     vector<node> nodes;
@@ -58,7 +58,7 @@ int main()
         
         // x축을 따라 스위핑
         int len = 0, weight = 0;
-        for(int x = -100'000; x <= 100'000; x++) {
+        for(int x = -50'000; x <= 50'000; x++) {
             weight += delta[x+offset];
             if(weight > 0) len++;
         }
