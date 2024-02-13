@@ -15,6 +15,9 @@ using pll = pair<ll, ll>;
 using pdd = pair<double, double>;
 using int128 = __int128_t;
 
+int dp[100'001];
+int sz[100'001];
+
 int main()
 {
     ios_base::sync_with_stdio(false);
@@ -29,12 +32,66 @@ int main()
         return 0;
     }
     
-    cout << N/2+N%2 << '\n';
-    for(int i = 2; i < N; i += 2) {
-        cout << 2 <<  ' ' << i-1 << ' ' << i << '\n'; 
+    dp[1] = 0; sz[1] = 0;
+    dp[2] = 1; sz[2] = 1;
+    dp[3] = 2; sz[3] = 2;
+    
+    for(int i = 4; i <= N; i++) {
+        dp[i] = 1e9; sz[i] = 0;
+        
+        // 조각의 길이
+        for(int j = 2; j <= sqrt(i); j++) {
+            if(dp[i] > dp[j]+(i/j-(i%j == 0))) {
+                dp[i] = dp[j]+(i/j-(i%j == 0));
+                sz[i] = j;
+            }
+        }
+        
+        //조각 수
+        for(int j = 2; j <= sqrt(i); j++) {
+            int len = i/j+(i%j > 0);
+            if(dp[i] > dp[len]+(i/len-(i%len == 0))) {
+                dp[i] = dp[len]+(i/len-(i%len == 0));
+                sz[i] = len;
+            }
+        }
     }
-    cout << N/2 << ' ';
-    for(int i = 2; i <= N; i += 2) cout << i << ' ';
+    
+    cout << dp[N] << '\n';
+    
+    int cur = N;
+    vector<int> vec; vec.pb(N);
+    while(cur > 1) {
+        int len = sz[cur];
+        
+        for(int i = len; i < cur; i += len) {
+            int sum = 0;
+            vector<int> press;
+            for(auto &v: vec) {
+                if(v > i) {
+                    for(int j = len-1; j >= 0; j--) {
+                        press.pb(sum+i-j);
+                    }
+                }
+                sum += v;
+            }
+            
+            cout << press.size() << ' ';
+            for(auto &v: press) cout << v << ' ';
+            cout << '\n';
+        }
+        
+        cur = sz[cur];
+        vector<int> temp;
+        for(auto &v: vec) {
+            while(v >= len) {
+                temp.pb(len);
+                v -= len;
+            }
+            if(v) temp.pb(v);
+        }
+        vec = temp;
+    }
     
     return 0;
 }
