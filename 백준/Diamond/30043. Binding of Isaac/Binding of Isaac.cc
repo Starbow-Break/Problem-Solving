@@ -20,8 +20,6 @@ const ll a = 1'103'515'245;
 const ll c = 12'345;
 const ll m = 1LL << 31;
 int dr[4] = {0, 1, 0, -1}, dc[4] = {1, 0, -1, 0};
-
-
 //--------------------------상수-------------------------
 
 //--------------------------던전 관련-------------------------
@@ -437,7 +435,7 @@ int statusIndex[1 << 20];
 int parent[20];
 int roomId[9][9]; pii roomPos[20]; // 방 아이디, 각 아이디 별 위치
 int startId, storeId = -1; // 시작 방 id, 상점 방 id
-int maxAtk[10000][10][23][5]; // 방 방문 상태, 체력, 코인, 폭탄
+int (*maxAtk)[10][23][5]; // 방 방문 상태, 체력, 코인, 폭탄
 
 //DFS
 void dfs(int cur, int bef = -1) {
@@ -489,7 +487,8 @@ bool isCleared() {
     }
     
     // maxAtk 초기화
-    for(int i = 0; i < 10000; i++) {
+    maxAtk = new int[status.size()][10][23][5];
+    for(int i = 0; i < status.size(); i++) {
         for(int j = 0; j < 10; j ++) {
             for(int k = 0; k < 23; k++) {
                 for(int l = 0; l < 5; l++) {
