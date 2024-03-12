@@ -19,10 +19,10 @@ ll solve(int X, int Y, int x, int y) {
     int qx = X/x, qy = Y/y;
     int rx = X%x, ry = Y%y;
     
-    return 1LL*rx*ry*max(1LL*((qx+2)/2)*((qy+2)/2), 1LL*((qx+1)/2)*((qy+1)/2))
-        + 1LL*rx*(y-ry)*max(1LL*((qx+2)/2)*((qy+1)/2), 1LL*((qx+1)/2)*(qy/2))
-        + 1LL*(x-rx)*ry*max(1LL*((qx+1)/2)*((qy+2)/2), 1LL*(qx/2)*((qy+1)/2))
-        + 1LL*(x-rx)*(y-ry)*max(1LL*((qx+1)/2)*((qy+1)/2), 1LL*(qx/2)*(qy/2))
+    return 1LL*rx*ry*((qx+2)/2)*((qy+2)/2)
+        + 1LL*rx*(y-ry)*((qx+2)/2)*((qy+1)/2)
+        + 1LL*(x-rx)*ry*((qx+1)/2)*((qy+2)/2)
+        + 1LL*(x-rx)*(y-ry)*((qx+1)/2)*((qy+1)/2)
         + 1LL*rx*ry*max(1LL*((qx+1)/2)*((qy+2)/2), 1LL*((qx+2)/2)*((qy+1)/2))
         + 1LL*rx*(y-ry)*max(1LL*((qx+1)/2)*((qy+1)/2), 1LL*((qx+2)/2)*(qy/2))
         + 1LL*(x-rx)*ry*max(1LL*(qx/2)*((qy+2)/2), 1LL*((qx+1)/2)*((qy+1)/2))
