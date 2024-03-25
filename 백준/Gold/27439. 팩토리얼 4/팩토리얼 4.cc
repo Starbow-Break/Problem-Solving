@@ -16,7 +16,7 @@ using pdd = pair<double, double>;
 using int128 = __int128_t;
 
 const ll BASE = 1e13;
-ll ans[100'000] = {0, }; int r = 0;
+ll ans[100'000] = {0, }; int l = 0, r = 0;
 
 int main()
 {
@@ -28,12 +28,13 @@ int main()
     int N; cin >> N;
     for(int i = 2; i <= N; i++) {
         ll c = 0;
-        for(int j = 0; j <= r; j++) {
+        for(int j = l; j <= r; j++) {
             ans[j] = ans[j] * i + c;
             c = ans[j]/BASE;
             ans[j] %= BASE;
         }
         
+        while(ans[l] == 0) l++;
         if(c) { ans[r+1] = c; r++; }
     }
     
